@@ -142,10 +142,15 @@ Either returns current coords or changes them.
 
 Parameters:
 - coords (Array of 6 numbers), optional
+
   co 0 latitude
+
   co 1 longitude
+
   co 2 altitude in meters
+
   co 3 vertical speed in meters
+
   last two can be 0
 
 Returns: undefined if parameter is passed or an array of current coords if it isn't passed.
