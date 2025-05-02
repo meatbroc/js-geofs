@@ -154,3 +154,61 @@ Parameters:
   last two can be 0
 
 Returns: undefined if parameter is passed or an array of current coords if it isn't passed.
+
+## GeoAPI
+
+Geocodes a specified query.
+
+### References
+
+ECMAScript:
+```js
+import { GeoAPI } from "js-geofs";
+const myAPI = new GeoAPI();
+```
+
+CommonJS:
+```js
+const geofs = require("js-geofs");
+const myAPI = new geofs.GeoAPI();
+```
+
+### Methods
+
+#### query:
+
+Sends a request to GeoFS's geocoding backend and returns the response if found.
+
+Parameters:
+- toQuery (String), required
+  String to query/encode in the URL.
+
+Returns: Response object or undefined if it couldn't be geocoded.
+
+## WeatherAPI
+
+### References
+
+ECMAScript:
+```
+import { WeatherAPI } from "js-geofs";
+const myAPI = new WeatherAPI();
+```
+
+CommonJS:
+```
+const geofs = require("js-geofs");
+const myAPI = new geofs.WeatherAPI();
+```
+
+### Methods
+
+#### query:
+
+Queries GeoFS's weather backend with the specified ICAO(s) and returns the airport's METAR if found.
+
+Parameters:
+- toQuery (String), required
+  String to query/encode in the URL.
+
+Returns: Response object or undefined if no matching METAR was found.
