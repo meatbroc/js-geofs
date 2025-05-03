@@ -1,6 +1,6 @@
 # js-geofs
 
-An abstraction layer for the GeoFS API (credit to [](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI)
+An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI)
 
 # Installation
 
