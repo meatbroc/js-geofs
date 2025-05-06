@@ -13,7 +13,7 @@ An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/proj
    ```bash
    npm install js-geofs
    ```
-3. You're all set! Read the MapAPI and MultiplayerAPI sections to find out more.
+3. You're all set! Read the Components sections to find out more.
 
 # Components
 
