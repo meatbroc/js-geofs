@@ -14,10 +14,11 @@
   "keywords": [
     "geofs",
     "js",
+    "js-geofs",
     "javascript",
     "api",
     "flight",
-    "simulator"
+    "simulator",
   ],
   "author": "meatbroc",
   "license": "MIT"
