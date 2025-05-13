@@ -1,214 +1,230 @@
 # js-geofs
 
-An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI)
+![npm version](https://img.shields.io/npm/v/js-geofs.svg)
+![npm downloads](https://img.shields.io/npm/dm/js-geofs.svg)
+![License](https://img.shields.io/github/license/meatbroc/js-geofs)
 
-# Installation
+An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI).
 
-1. Create your project directory and select it
+---
+
+## Table of Contents
+1. [Installation](#installation)
+2. [Components](#components)
+   - [MapAPI](#mapapi)
+   - [MultiplayerAPI](#multiplayerapi)
+   - [GeoAPI](#geoapi)
+   - [WeatherAPI](#weatherapi)
+4. [Contributing](#contributing)
+5. [License](#license)
+
+---
+
+## Installation
+
+1. Create your project directory and select it:
    ```bash
    mkdir example-dir
    cd /path/to/example-dir
    ```
-2. Install the package
+
+2. Install the package:
    ```bash
    npm install js-geofs
    ```
-3. You're all set! Read the Components sections to find out more.
 
-# Components
+3. You're all set! Read the [Components](#components) section to find out more.
 
-## MapAPI
+---
 
-The MapAPI is a way to access GeoFS's map data, which includes:
-- Users
-- User IDs
-- User account IDs
-- User aircraft IDs
-- User callsigns
-- User grounded status and airspeed
-- User coordinates
-- User vectors
-- User time
+## Components
 
-### References
+### MapAPI
 
-ECMAScript:
+The MapAPI provides access to GeoFS's map data, which includes the user's:
+
+- ID
+- Account ID
+- Aircraft ID
+- Callsign
+- Grounded status and airspeed
+- Coordinates
+- Vectors
+- Time
+
+#### References
+
+**ECMAScript:**
 ```js
 import { MapAPI } from "js-geofs";
 const myAPI = new MapAPI();
 ```
-CommonJS:
+
+**CommonJS:**
 ```js
 const geofs = require("js-geofs");
 const myAPI = new geofs.MapAPI();
 ```
 
-### Methods
+#### Methods
 
-#### getUsers:
+- **getUsers:**
+  - **Parameters:** 
+    - `foos` (Boolean), optional: 
+      - If true, returns only foos.
+      - If false, returns only non-foos.
+      - If not provided, returns all users.
+  - **Returns:** List of users as per specifications.
 
-Parameters:
-- foos (Boolean), optional
-  If true, will only return foos. If false, will only return non-foos. If not provided, will return all users.
+- **responseList.get:**
+  - **Gets:** Response history.
+  - **Parameters:** N/A.
+  - **Returns:** Array of all previous results of `getUsers` calls.
 
-Returns: List of users as per specifications
+- **responseList.reset:**
+  - Clears `responseList`.
+  - **Parameters:** N/A.
+  - **Returns:** undefined.
 
-#### responseList.get:
+- **responseList.enable, responseList.disable, responseList.toggle:**
+  - Enables, disables, or toggles usage of the `responseList`.
+  - **Parameters:** N/A.
+  - **Returns:** undefined.
 
-Gets response history.
+---
 
-Parameters: N/A
+### MultiplayerAPI
 
-Returns: Array of all previous results of getUsers calls
-
-#### responseList.reset:
-
-Clears responseList.
-
-Parameters: N/A
-
-Returns: undefined
-
-#### responseList.enable, responseList.disable, responseList.toggle:
-
-Enables, disables, or toggles the usage of the responseList.
-
-Parameters: N/A
-
-Returns: undefined
-
-## MultiplayerAPI
-
-The MultiplayerAPI is a way to access GeoFS's multiplayer data, which includes:
+The MultiplayerAPI provides access to GeoFS's multiplayer data, including:
 - Chat data
 - More detailed positioning information
 
-### References
+#### References
 
-ECMAScript:
+**ECMAScript:**
 ```js
 import { MultiplayerAPI } from "js-geofs";
 const myAPI = new multiplayerAPI(sessionID, accountID);
 ```
-CommonJS:
+
+**CommonJS:**
 ```js
 const geofs = require("js-geofs");
 const myAPI = new multiplayerAPI(sessionID, accountID);
 ```
-The accountID value can be found [here](https://www.geo-fs.com/pages/account.php?action=edit) and is refered to as your "user ID" on the website.
 
-The sessionID value can be found in the console. Sign into your account [here](https://www.geo-fs.com/geofs.php) and then open the console with ctrl+shift+j.
+- The `accountID` value can be found [here](https://www.geo-fs.com/pages/account.php?action=edit).
+- The `sessionID` value can be found in the console (see below).
 
-Then, paste this code in.
+#### Retrieving `sessionID`
+Sign in to your account [here](https://www.geo-fs.com/geofs.php) and open the console with `ctrl+shift+j`. Then, paste this code:
 ```js
 const cookies = document.cookie.split(';');
 const sessionIdCookie = cookies.find(cookie => cookie.trim().startsWith('PHPSESSID='));
 const sessionId = sessionIdCookie ? sessionIdCookie.split('=')[1] : null;
 console.log(sessionId);
 ```
-This should output a session ID that is basically a random string.
-Next, you need to make a handshake with the server.
+
+This will output a session ID, which is a random string.
+
+*Note: session IDs can be exploited to gain access to your GeoFS account. This package needs it in order to access chat messages through MultiplayerAPI. Do not share your session ID with anyone unless you know what you're doing.*
+
+To make a handshake with the server:
 ```js
 myAPI.handshake();
 ```
-Now you are setup and can use the API freely.
 
-### Methods
+#### Methods
 
-#### sendMsg:
+- **sendMsg:**
+  - Sends a specified message to GeoFS chat.
+  - **Parameters:**
+    - `msg` (String), required: The message to send in GeoFS chat.
+  - **Returns:** undefined.
 
-Sends a specified message to GeoFS chat.
+- **getMessages:**
+  - Pulls the most recent messages from the server.
+  - **Parameters:** N/A.
+  - **Returns:** Array of chat messages or null if the connection was unsuccessful.
 
-Parameters:
+- **coords:**
+  - Either returns current coordinates or changes them.
+  - **Parameters:**
+    - `coords` (Array of 6 numbers), optional:
+      - `co[0]` latitude
+      - `co[1]` longitude
+      - `co[2]` altitude in meters
+      - `co[3]` vertical speed in meters
+      - Last two can be 0.
+  - **Returns:** undefined if parameter is passed or an array of current coords if not.
 
-- msg (String), required
-  The message to send in GeoFS chat.
+---
 
-Returns: undefined.
+### GeoAPI
 
-#### getMessages: 
+The GeoAPI allows you to geocode a specified query.
 
-Allows you to pull the most recent messages from the server.
+#### References
 
-It will only pull messages that occured, since the last time you used this command.
-
-Parameters: N/A
-
-Returns: Array of chat messages or null if connection was unsuccessful.
-
-#### coords:
-
-Either returns current coords or changes them.
-
-Parameters:
-- coords (Array of 6 numbers), optional
-
-  co 0 latitude
-
-  co 1 longitude
-
-  co 2 altitude in meters
-
-  co 3 vertical speed in meters
-
-  last two can be 0
-
-Returns: undefined if parameter is passed or an array of current coords if it isn't passed.
-
-## GeoAPI
-
-Geocodes a specified query.
-
-### References
-
-ECMAScript:
+**ECMAScript:**
 ```js
 import { GeoAPI } from "js-geofs";
 const myAPI = new GeoAPI();
 ```
 
-CommonJS:
+**CommonJS:**
 ```js
 const geofs = require("js-geofs");
 const myAPI = new geofs.GeoAPI();
 ```
 
-### Methods
+#### Methods
 
-#### query:
+- **query:**
+  - Sends a request to GeoFS's geocoding backend and returns the response if found.
+  - **Parameters:**
+    - `toQuery` (String), required: String to query/encode in the URL.
+  - **Returns:** Response object or undefined if it couldn't be geocoded.
 
-Sends a request to GeoFS's geocoding backend and returns the response if found.
+---
 
-Parameters:
-- toQuery (String), required
-  String to query/encode in the URL.
+### WeatherAPI
 
-Returns: Response object or undefined if it couldn't be geocoded.
+#### References
 
-## WeatherAPI
-
-### References
-
-ECMAScript:
-```
+**ECMAScript:**
+```js
 import { WeatherAPI } from "js-geofs";
 const myAPI = new WeatherAPI();
 ```
 
-CommonJS:
-```
+**CommonJS:**
+```js
 const geofs = require("js-geofs");
 const myAPI = new geofs.WeatherAPI();
 ```
 
-### Methods
+#### Methods
 
-#### query:
+- **query:**
+  - Queries GeoFS's weather backend with the specified ICAO(s) and returns the airport's METAR if found.
+  - **Parameters:**
+    - `toQuery` (String), required: String to query/encode in the URL.
+  - **Returns:** Response object or undefined if no matching METAR was found.
 
-Queries GeoFS's weather backend with the specified ICAO(s) and returns the airport's METAR if found.
+---
 
-Parameters:
-- toQuery (String), required
-  String to query/encode in the URL.
+## Contributing
 
-Returns: Response object or undefined if no matching METAR was found.
+Contributions are welcome! If you don't know how to contribute, follow the steps below.
+
+1. Fork the repository.
+2. Create a new branch for your changes.
+3. Commit and push your code.
+4. Open a pull request describing your changes in detail.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
