@@ -1,7 +1,6 @@
 # js-geofs
 
 ![npm version](https://img.shields.io/npm/v/js-geofs.svg)
-![npm downloads](https://img.shields.io/npm/dm/js-geofs.svg)
 ![License](https://img.shields.io/github/license/meatbroc/js-geofs)
 
 An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI).
