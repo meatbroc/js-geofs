@@ -1,7 +1,7 @@
 # js-geofs
 
-![npm version](https://img.shields.io/npm/v/js-geofs.svg)
-![License](https://img.shields.io/github/license/meatbroc/js-geofs)
+[![npm version](https://img.shields.io/npm/v/js-geofs.svg)](https://www.npmjs.com/package/js-geofs)
+[![License](https://img.shields.io/github/license/meatbroc/js-geofs)](https://github.com/meatbroc/js-geofs/blob/main/LICENSE)
 
 An abstraction layer for the GeoFS API (credit to [iL0g1c](https://pypi.org/project/python-geofs/) for MapAPI & MultiplayerAPI).
 
@@ -116,7 +116,7 @@ const myAPI = new multiplayerAPI(sessionID, accountID);
 - The `sessionID` value can be found in the console (see below).
 
 #### Retrieving `sessionID`
-Sign in to your account [here](https://www.geo-fs.com/geofs.php) and open the console with `ctrl+shift+j`. Then, paste this code:
+Sign in to your account [here](https://www.geo-fs.com/){:target="_blank"} and open the console with `ctrl+shift+j`. Then, paste this code:
 ```js
 const cookies = document.cookie.split(';');
 const sessionIdCookie = cookies.find(cookie => cookie.trim().startsWith('PHPSESSID='));
